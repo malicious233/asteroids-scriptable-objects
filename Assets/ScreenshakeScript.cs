@@ -11,15 +11,11 @@ public class ScreenshakeScript : MonoBehaviour
     [Header("SCREENSHAKE PROPERTIES:")]
     [SerializeField] float magnitude;
     float shakeTimeRemaining;
-    float shakeDuration;
     float shakePower;
     float shakeFadeTime;
-    float timeSinceScreenshake;
     private void Screenshake(float _duration)
     {
-        timeSinceScreenshake = 0f;
         shakeTimeRemaining = _duration;
-        shakeDuration = _duration;
         shakePower = magnitude;
         shakeFadeTime = magnitude / _duration;
 
@@ -28,7 +24,6 @@ public class ScreenshakeScript : MonoBehaviour
 
     public void LateUpdate()
     {
-        timeSinceScreenshake -= Time.unscaledDeltaTime;
 
         if (shakeTimeRemaining > 0)
         {
