@@ -1,15 +1,15 @@
 using DefaultNamespace.ScriptableEvents;
 using UnityEngine;
 using Variables;
+using ScriptableEvents;
 using Random = UnityEngine.Random;
+using System.Collections;
 
 namespace Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Asteroid : MonoBehaviour
     {
-        [SerializeField] private ScriptableEventInt _onAsteroidDestroyed;
-        
         [Header("Config:")]
         [SerializeField] private float _minForce;
         [SerializeField] private float _maxForce;
@@ -17,15 +17,35 @@ namespace Asteroids
         [SerializeField] private float _maxSize;
         [SerializeField] private float _minTorque;
         [SerializeField] private float _maxTorque;
-
+        [SerializeField] private float _splitSizeTreshold;
+        [SerializeField] private float _screenShakeDuration;
         [Header("References:")]
         [SerializeField] private Transform _shape;
+        [SerializeField] private DefaultNamespace.ScriptableEvents.ScriptableEventInt _onAsteroidDestroyed;
+
+        [Header("Event References:")]
+        [SerializeField] private ScriptableEvents.ScriptableEventTransform _onAsteroidSplit; //Perhaps should give it a better namespace name for this project...
+        [SerializeField] private ScriptableEvents.ScriptableEventVector3 _onAsteroidSplitParticle;
+        [SerializeField] private ScriptableEvents.ScriptableEventFloat _onScreenshake;
+
+        public Transform Shape
+        {
+            get
+            {
+                return _shape;
+            }
+            set
+            {
+                _shape = value;
+            }
+        }
+
 
         private Rigidbody2D _rigidbody;
         private Vector3 _direction;
         private int _instanceId;
 
-        private void Start()
+        private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _instanceId = GetInstanceID();
@@ -44,10 +64,28 @@ namespace Asteroids
             }
         }
 
+        
+
         private void HitByLaser()
         {
+            AttemptSplit();
+            _onAsteroidSplitParticle.Raise(transform.position);
+            _onScreenshake.Raise(_screenShakeDuration * transform.localScale.magnitude);
+            StartCoroutine(WaitForHitlagEnd());
+            
+        }
+
+        IEnumerator WaitForHitlagEnd() //Make this coroutine accept a method as a parameter to be called when hitlag has ended perhaps?
+        {
+            while (Time.timeScale != 1.0f)
+            yield return null;
             _onAsteroidDestroyed.Raise(_instanceId);
+            
             Destroy(gameObject);
+        }
+        private void AttemptSplit()
+        {
+            _onAsteroidSplit.Raise(Shape.transform);
         }
 
         // TODO Can we move this to a single listener, something like an AsteroidDestroyer?
@@ -66,6 +104,8 @@ namespace Asteroids
                 Destroy(gameObject);
             }
         }
+
+        
         
         private void SetDirection()
         {
@@ -100,6 +140,11 @@ namespace Asteroids
         {
             var size = Random.Range(_minSize, _maxSize);
             _shape.localScale = new Vector3(size, size, 0f);
+        }
+
+        public void SetSize(float _size)
+        {
+            _shape.localScale = new Vector3(_size, _size, 0f);
         }
     }
 }
