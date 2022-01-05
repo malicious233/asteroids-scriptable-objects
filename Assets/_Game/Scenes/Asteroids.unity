@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7777db9a659f9a24a9698637dec1961d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onAsteroidSplitParticleEvent: {fileID: 11400000, guid: 121c9f5f1bb457743ab75e640f08cf8c, type: 2}
+  onAsteroidHitParticleEvent: {fileID: 11400000, guid: 121c9f5f1bb457743ab75e640f08cf8c, type: 2}
   splitParticlePrefab: {fileID: 5700473473396107306, guid: 4f49b445074dd554192d57eeeb07bffe, type: 3}
 --- !u!114 &837203929
 MonoBehaviour:

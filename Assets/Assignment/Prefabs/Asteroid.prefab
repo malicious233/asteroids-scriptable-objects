@@ -55,9 +55,9 @@ MonoBehaviour:
   _screenShakeDuration: 0.2
   _shape: {fileID: 1524412162417054026}
   _onAsteroidDestroyed: {fileID: 11400000, guid: 6194a1f60d68f9f4da5519ce74b63a58, type: 2}
-  _onAsteroidSplit: {fileID: 11400000, guid: 0e40880bfc0ae6f4b9177659341ba1bf, type: 2}
-  _onAsteroidSplitParticle: {fileID: 11400000, guid: 121c9f5f1bb457743ab75e640f08cf8c, type: 2}
-  _onScreenshake: {fileID: 11400000, guid: 497226666348fa04e9d34fdf24ee24ea, type: 2}
+  _onAsteroidSplitEvent: {fileID: 11400000, guid: 0e40880bfc0ae6f4b9177659341ba1bf, type: 2}
+  _onAsteroidHitParticleEvent: {fileID: 11400000, guid: 121c9f5f1bb457743ab75e640f08cf8c, type: 2}
+  _onScreenshakeEvent: {fileID: 11400000, guid: 497226666348fa04e9d34fdf24ee24ea, type: 2}
 --- !u!50 &1784223117350305362
 Rigidbody2D:
   serializedVersion: 4

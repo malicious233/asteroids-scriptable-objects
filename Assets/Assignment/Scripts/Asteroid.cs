@@ -24,9 +24,9 @@ namespace Asteroids
         [SerializeField] private DefaultNamespace.ScriptableEvents.ScriptableEventInt _onAsteroidDestroyed;
 
         [Header("Event References:")]
-        [SerializeField] private ScriptableEvents.ScriptableEventTransform _onAsteroidSplit; //Perhaps should give it a better namespace name for this project...
-        [SerializeField] private ScriptableEvents.ScriptableEventVector3 _onAsteroidSplitParticle;
-        [SerializeField] private ScriptableEvents.ScriptableEventFloat _onScreenshake;
+        [SerializeField] private ScriptableEvents.ScriptableEventTransform _onAsteroidSplitEvent; //Perhaps should give it a better namespace name for this project...
+        [SerializeField] private ScriptableEvents.ScriptableEventVector3 _onAsteroidHitParticleEvent;
+        [SerializeField] private ScriptableEvents.ScriptableEventFloat _onScreenshakeEvent;
 
         public Transform Shape
         {
@@ -69,13 +69,13 @@ namespace Asteroids
         private void HitByLaser()
         {
             AttemptSplit();
-            _onAsteroidSplitParticle.Raise(transform.position);
-            _onScreenshake.Raise(_screenShakeDuration * transform.localScale.magnitude);
+            _onAsteroidHitParticleEvent.Raise(transform.position);
+            _onScreenshakeEvent.Raise(_screenShakeDuration * transform.localScale.magnitude);
             StartCoroutine(WaitForHitlagEnd());
             
         }
 
-        IEnumerator WaitForHitlagEnd() //Make this coroutine accept a method as a parameter to be called when hitlag has ended perhaps?
+        IEnumerator WaitForHitlagEnd() //Make this coroutine accept a method in a parameter to be called when hitlag has ended perhaps?
         {
             while (Time.timeScale != 1.0f)
             yield return null;
@@ -85,7 +85,7 @@ namespace Asteroids
         }
         private void AttemptSplit()
         {
-            _onAsteroidSplit.Raise(Shape.transform);
+            _onAsteroidSplitEvent.Raise(Shape.transform);
         }
 
         // TODO Can we move this to a single listener, something like an AsteroidDestroyer?

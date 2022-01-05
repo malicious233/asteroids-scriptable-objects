@@ -5,7 +5,7 @@ using ScriptableEvents;
 
 public class ParticleManager : MonoBehaviour
 {
-    [SerializeField] ScriptableEventVector3 onAsteroidSplitParticleEvent;
+    [SerializeField] ScriptableEventVector3 onAsteroidHitParticleEvent;
     [SerializeField] GameObject splitParticlePrefab;
 
     private void CreateAsteroidSplitParticle(Vector3 _position)
@@ -14,11 +14,11 @@ public class ParticleManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        onAsteroidSplitParticleEvent.Register(CreateAsteroidSplitParticle);
+        onAsteroidHitParticleEvent.Register(CreateAsteroidSplitParticle);
     }
 
     private void OnDisable()
     {
-        onAsteroidSplitParticleEvent.Unregister(CreateAsteroidSplitParticle);
+        onAsteroidHitParticleEvent.Unregister(CreateAsteroidSplitParticle);
     }
 }
